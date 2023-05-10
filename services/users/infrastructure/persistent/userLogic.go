@@ -6,6 +6,7 @@ import (
 
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/users/domain/entity"
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/users/domain/repository"
+	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/users/infrastructure/auth"
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/users/infrastructure/encrypt"
 	"gorm.io/gorm"
 )
@@ -45,6 +46,7 @@ func (u *UserInfra) LoginUser(user *entity.UserLogin) (any, error) {
 	}
 
 	// generate authtoken / cookie
+	auth.GenerateCookie(&foundUser)
 
 	return foundUser, nil
 }
