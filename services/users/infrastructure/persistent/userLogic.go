@@ -6,6 +6,7 @@ import (
 
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/users/domain/entity"
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/users/domain/repository"
+	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/users/infrastructure/encrypt"
 	"gorm.io/gorm"
 )
 
@@ -27,6 +28,25 @@ func (u *UserInfra) CreateUser(user *entity.User) (any, error) {
 		return nil, err
 	}
 	return user, nil
+}
+
+func (u *UserInfra) LoginUser(user *entity.UserLogin) (any, error) {
+	var foundUser entity.User
+	if err := u.Conn.Debug().Find(foundUser, "email ?=", user.Email).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, errors.New("email is invalid")
+		}
+		return nil, err
+	}
+
+	valid := encrypt.VerifyPassword(user.Password, foundUser.Password)
+	if !valid {
+		return nil, errors.New("password is incorrect")
+	}
+
+	// generate authtoken / cookie
+
+	return foundUser, nil
 }
 
 func (u *UserInfra) ReadUserByID(userId string) (any, error) {

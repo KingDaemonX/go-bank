@@ -47,6 +47,29 @@ func (ui *userInterface) CreateUser() gin.HandlerFunc {
 	}
 }
 
+func (ui *userInterface) LoginUser() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var user entity.UserLogin
+
+		if err := c.BindJSON(&user); err != nil {
+			responses.ErrorResp(c, err)
+			return
+		}
+
+		if err := validate.Struct(&user); err != nil {
+			responses.ErrorResp(c, err)
+			return
+		}
+
+		resp, err := ui.userApp.LoginUser(&user)
+		if err != nil {
+			responses.ErrorResp(c, err, http.StatusInternalServerError)
+		}
+
+		responses.JSONResp(c, http.StatusOK, "success", resp)
+	}
+}
+
 func (ui *userInterface) GetUserByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.Param("id")
