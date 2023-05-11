@@ -11,8 +11,6 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-var mySigningKey = []byte("AllYourBase")
-
 type MyCustomClaims struct {
 	UID       uint
 	firstName string
@@ -22,7 +20,7 @@ type MyCustomClaims struct {
 }
 
 func GenerateCookie(user *entity.User) {
-	var c gin.Context
+	var c *gin.Context
 
 	// Create claims with multiple fields populated
 	claims := MyCustomClaims{
