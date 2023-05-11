@@ -33,6 +33,7 @@ func (u *UserInfra) CreateUser(user *entity.User) (any, error) {
 
 func (u *UserInfra) LoginUser(user *entity.UserLogin) (any, error) {
 	var foundUser entity.User
+
 	if err := u.Conn.Debug().Find(foundUser, "email ?=", user.Email).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, errors.New("email is invalid")
@@ -40,9 +41,9 @@ func (u *UserInfra) LoginUser(user *entity.UserLogin) (any, error) {
 		return nil, err
 	}
 
-	valid := encrypt.VerifyPassword(user.Password, foundUser.Password)
+	valid, err := encrypt.VerifyPassword(user.Password, foundUser.Password)
 	if !valid {
-		return nil, errors.New("password is incorrect")
+		return nil, err
 	}
 
 	// generate authtoken / cookie
