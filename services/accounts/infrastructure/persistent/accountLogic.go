@@ -5,12 +5,14 @@ import (
 
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/accounts/domain/entity"
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/accounts/domain/repository"
+	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/accounts/infrastructure/helpers"
 	entity2 "github.com/KingDaemonX/evolve-mod-ddd-sample/services/users/domain/entity"
 	"gorm.io/gorm"
 )
 
 type AccountInfra struct {
 	database *gorm.DB
+	helper   *helpers.AccountHelper
 }
 
 func NewAccountInfra(conn *gorm.DB) *AccountInfra {
@@ -30,9 +32,9 @@ func (a *AccountInfra) CreateAccount(account *entity.Account) (any, error) {
 		return nil, err
 	}
 
-	
-
 	// else continue and build with logic
+	// account.Number = a.helper.GenerateAccNumber()
+
 	return "", nil
 }
 

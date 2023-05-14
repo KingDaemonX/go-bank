@@ -4,7 +4,7 @@ import "time"
 
 type Account struct {
 	UID       uint        `gorm:"foreignKey;user"`
-	Number    uint        `json:"accountNumber" gorm:"account_number"`
+	Number    string      `json:"accountNumber" gorm:"account_number"`
 	Active    bool        `json:"" gorm:""`
 	Balance   float64     `json:"accountBalance" gorm:"account_balance"`
 	Pin       *AccountPin `json:"-"`
