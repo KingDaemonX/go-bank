@@ -33,9 +33,12 @@ func (a *AccountInfra) CreateAccount(account *entity.Account) (any, error) {
 	}
 
 	// else continue and build with logic
-	// account.Number = a.helper.GenerateAccNumber()
+	account.Number = a.helper.GenerateAccNumber()
+	account.Active = false
+	account.Balance = 0.00
+	a.database.Debug().Save(account)
 
-	return "", nil
+	return account, nil
 }
 
 func (a *AccountInfra) ReadAccountByAccountNumber(account string) (any, error) {
