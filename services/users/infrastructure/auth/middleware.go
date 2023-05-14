@@ -6,7 +6,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/KingDaemonX/evolve-mod-ddd-sample/adapt/responses"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 )
@@ -16,10 +15,12 @@ func MiddleWare() gin.HandlerFunc {
 		tokenString, err := c.Cookie("Authorization")
 		if err != nil {
 			if err == http.ErrNoCookie {
-				responses.ErrorResp(c, err, http.StatusUnauthorized)
+				//come fix this later
+				// responses.ErrorResp(c, err, http.StatusUnauthorized)
 				return
 			}
-			responses.ErrorResp(c, err, http.StatusUnauthorized)
+			// come fix this later
+			// responses.ErrorResp(c, err, http.StatusUnauthorized)
 			return
 		}
 

@@ -12,7 +12,9 @@ type Response struct {
 	Data    any    `json:"data"`
 }
 
-func ErrorResp(c *gin.Context, err error, status ...int) {
+var c *gin.Context
+
+func (res *Response) ErrorResp(err error, status ...int) {
 	statusCode := http.StatusBadRequest
 	if len(status) > 0 {
 		statusCode = status[0]
@@ -21,6 +23,6 @@ func ErrorResp(c *gin.Context, err error, status ...int) {
 }
 
 // resturn json response
-func JSONResp(c *gin.Context, status int, message string, data any) {
+func (res *Response) JSONResp(status int, message string, data any) {
 	c.JSON(status, Response{Status: status, Message: message, Data: data})
 }

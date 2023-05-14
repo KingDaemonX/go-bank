@@ -13,6 +13,7 @@ import (
 
 type userInterface struct {
 	userApp application.UserAppInterface
+	res     *responses.Response
 }
 
 func NewUserInterface(ua *application.UserAppInterface) *userInterface {
@@ -26,13 +27,13 @@ func (ui *userInterface) CreateUser() gin.HandlerFunc {
 		var user entity.User
 
 		if err := c.BindJSON(&user); err != nil {
-			responses.ErrorResp(c, err)
+			ui.res.ErrorResp(err)
 			log.Println("Error : ", err.Error())
 			return
 		}
 
 		if err := validate.Struct(&user); err != nil {
-			responses.ErrorResp(c, err)
+			ui.res.ErrorResp(err)
 			log.Println("Error : ", err.Error())
 			return
 		}
@@ -43,7 +44,7 @@ func (ui *userInterface) CreateUser() gin.HandlerFunc {
 			return
 		}
 
-		responses.JSONResp(c, http.StatusCreated, "success", resp)
+		ui.res.JSONResp(http.StatusCreated, "success", resp)
 	}
 }
 
@@ -52,21 +53,21 @@ func (ui *userInterface) LoginUser() gin.HandlerFunc {
 		var user entity.UserLogin
 
 		if err := c.BindJSON(&user); err != nil {
-			responses.ErrorResp(c, err)
+			ui.res.ErrorResp(err)
 			return
 		}
 
 		if err := validate.Struct(&user); err != nil {
-			responses.ErrorResp(c, err)
+			ui.res.ErrorResp(err)
 			return
 		}
 
 		resp, err := ui.userApp.LoginUser(&user)
 		if err != nil {
-			responses.ErrorResp(c, err, http.StatusInternalServerError)
+			ui.res.ErrorResp(err, http.StatusInternalServerError)
 		}
 
-		responses.JSONResp(c, http.StatusOK, "success", resp)
+		ui.res.JSONResp(http.StatusOK, "success", resp)
 	}
 }
 
@@ -79,6 +80,6 @@ func (ui *userInterface) GetUserByID() gin.HandlerFunc {
 			log.Fatalf("Error %s", err.Error())
 		}
 
-		responses.JSONResp(c, http.StatusOK, "success", resp)
+		ui.res.JSONResp(http.StatusOK, "success", resp)
 	}
 }

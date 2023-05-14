@@ -9,7 +9,7 @@ type UserApplication struct {
 	user repository.UserRepository
 }
 
-var _ repository.UserRepository = &UserApplication{}
+var _ UserAppInterface = &UserApplication{}
 
 type UserAppInterface interface {
 	CreateUser(*entity.User) (any, error)
