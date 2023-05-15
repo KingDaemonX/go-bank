@@ -33,7 +33,7 @@ func (a *AccountInfra) CreateAccount(account *entity.Account) (any, error) {
 	}
 
 	// else continue and build with logic
-	account.Number = a.helper.GenerateAccNumber()
+	account.Number = a.helper.GenerateAccNumber(a.database)
 	account.Active = false
 	account.Balance = 0.00
 	a.database.Debug().Save(account)
@@ -42,9 +42,14 @@ func (a *AccountInfra) CreateAccount(account *entity.Account) (any, error) {
 }
 
 func (a *AccountInfra) ReadAccountByAccountNumber(account string) (any, error) {
-	return "", nil
+	var user entity2.User
+	if err := a.database.Debug().Find(user, "user.account_number ?=", account).Error; err != nil {
+		return nil, err
+	}
+
+	return user.PublicAccInfo(), nil
 }
 
 func (a *AccountInfra) UpdateAccountBalance(fundsInfo *entity.UpdateBalance) (any, error) {
-	return "", nil
+	return nil, nil
 }
