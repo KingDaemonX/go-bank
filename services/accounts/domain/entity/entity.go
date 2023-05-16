@@ -5,7 +5,7 @@ import "time"
 type Account struct {
 	UID       uint        `gorm:"foreignKey;user"`
 	Number    string      `json:"accountNumber" gorm:"account_number"`
-	Active    bool        `json:"" gorm:""`
+	Active    bool        `json:"active" gorm:""`
 	Balance   float64     `json:"accountBalance" gorm:"account_balance"`
 	Pin       *AccountPin `json:"-"`
 	CreatedAt time.Time
@@ -14,9 +14,4 @@ type Account struct {
 
 type AccountPin struct {
 	Pin string `json:"omit"`
-}
-
-type UpdateBalance struct {
-	ID   uint
-	Fund float64
 }

@@ -49,7 +49,3 @@ func (a *AccountInfra) ReadAccountByAccountNumber(account string) (any, error) {
 
 	return user.PublicAccInfo(), nil
 }
-
-func (a *AccountInfra) UpdateAccountBalance(fundsInfo *entity.UpdateBalance) (any, error) {
-	return nil, nil
-}
