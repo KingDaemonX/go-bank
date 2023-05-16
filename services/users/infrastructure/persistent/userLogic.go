@@ -1,4 +1,4 @@
-package persistent
+package infrastructure
 
 import (
 	"errors"

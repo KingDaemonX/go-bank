@@ -8,15 +8,15 @@ import (
 	"log"
 	"math/big"
 
+	"github.com/KingDaemonX/evolve-mod-ddd-sample/adapt"
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/accounts/domain/entity"
-	"gorm.io/gorm"
 )
 
 type AccountHelper struct {
 	account *entity.Account
 }
 
-func (ah *AccountHelper) GenerateAccNumber(conn *gorm.DB) string {
+func (ah *AccountHelper) GenerateAccNumber() string {
 	for {
 		accNum, err := rand.Int(rand.Reader, big.NewInt(10000000000))
 		if err != nil {
@@ -24,22 +24,23 @@ func (ah *AccountHelper) GenerateAccNumber(conn *gorm.DB) string {
 		}
 
 		if len(accNum.String()) != 10 {
-			ah.GenerateAccNumber(conn)
+			ah.GenerateAccNumber()
 			continue
 		}
 
-		valid := ah.CheckAccountNumber(accNum.String(), conn)
+		valid := ah.CheckAccountNumber(accNum.String())
+
 		if !valid {
-			ah.GenerateAccNumber(conn)
+			ah.GenerateAccNumber()
 			continue
 		}
 		return accNum.String()
 	}
 }
 
-func (ah *AccountHelper) CheckAccountNumber(accNum string, conn *gorm.DB) bool {
+func (ah *AccountHelper) CheckAccountNumber(accNum string) bool {
 	isValid := false
-	if err := conn.Debug().Find(ah.account, "account_number ?=", accNum); err != nil {
+	if err := adapt.Conn.Debug().Find(ah.account, "account_number ?=", accNum); err != nil {
 		log.Println(err.Error)
 		return isValid
 	}

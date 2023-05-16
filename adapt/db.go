@@ -4,10 +4,8 @@ import (
 	"log"
 	"os"
 
-	accRepository "github.com/KingDaemonX/evolve-mod-ddd-sample/services/accounts/domain/repository"
-	accInfrastructure "github.com/KingDaemonX/evolve-mod-ddd-sample/services/accounts/infrastructure/persistent"
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/users/domain/repository"
-	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/users/infrastructure/persistent"
+	infrastructure "github.com/KingDaemonX/evolve-mod-ddd-sample/services/users/infrastructure/persistent"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -22,9 +20,8 @@ const (
 )
 
 type UserInfra struct {
-	UserInfra    repository.UserRepository
-	AccountInfra accRepository.AcccountRepository
-	db           *gorm.DB
+	UserInfra repository.UserRepository
+	db        *gorm.DB
 }
 
 func ConnectDatabase() (*UserInfra, error) {
@@ -45,8 +42,7 @@ func ConnectDatabase() (*UserInfra, error) {
 	}
 
 	return &UserInfra{
-		UserInfra:    persistent.NewUserInfra(db),
-		AccountInfra: accInfrastructure.NewAccountInfra(db),
-		db:           db,
+		UserInfra: infrastructure.NewUserInfra(db),
+		db:        db,
 	}, nil
 }

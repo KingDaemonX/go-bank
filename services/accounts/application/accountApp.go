@@ -12,7 +12,6 @@ type accountApp struct {
 type AccountApplication interface {
 	CreateAccount(*entity.Account) (any, error)
 	ReadAccountByAccountNumber(string) (any, error)
-	UpdateAccountBalance(*entity.UpdateBalance) (any, error)
 }
 
 var _ repository.AcccountRepository = &accountApp{}
@@ -23,8 +22,4 @@ func (aa *accountApp) CreateAccount(account *entity.Account) (any, error) {
 
 func (aa *accountApp) ReadAccountByAccountNumber(accountNumber string) (any, error) {
 	return aa.account.ReadAccountByAccountNumber(accountNumber)
-}
-
-func (aa *accountApp) UpdateAccountBalance(fundsInfo *entity.UpdateBalance) (any, error) {
-	return aa.account.UpdateAccountBalance(fundsInfo)
 }
