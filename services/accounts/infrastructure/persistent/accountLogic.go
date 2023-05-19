@@ -42,5 +42,6 @@ func (a *AccountInfra) CreateAccount(account *entity.Account) (any, error) {
 }
 
 func (a *AccountInfra) ReadAccountByAccountNumber(account string) (any, error) {
+	// check if user with account exist
 	return "", nil
 }
