@@ -8,10 +8,14 @@ import (
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/adapt"
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/adapt/router"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func init() {
 	// load .env variable here
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("Error %s", err.Error())
+	}
 }
 
 func main() {

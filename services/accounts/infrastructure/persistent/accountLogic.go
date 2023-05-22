@@ -5,6 +5,7 @@ import (
 
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/accounts/domain/entity"
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/accounts/domain/repository"
+
 	"github.com/KingDaemonX/evolve-mod-ddd-sample/services/accounts/infrastructure/helpers"
 	entity2 "github.com/KingDaemonX/evolve-mod-ddd-sample/services/users/domain/entity"
 	"gorm.io/gorm"
@@ -33,7 +34,7 @@ func (a *AccountInfra) CreateAccount(account *entity.Account) (any, error) {
 	}
 
 	// else continue and build with logic
-	account.Number = a.helper.GenerateAccNumber()
+	account.Number = a.helper.GenerateAccNumber(a.database)
 	account.Active = false
 	account.Balance = 0.00
 	a.database.Debug().Save(account)
