@@ -36,3 +36,9 @@ func (ai *AccAppInterface) CreateAccount() gin.HandlerFunc {
 		ai.res.JSONResp(http.StatusCreated, "Account Created", resp)
 	}
 }
+
+// todo : account pin meth
+func (ai *AccAppInterface) CreatePin() gin.HandlerFunc {
+	return func(c *gin.Context) {
+	}
+}

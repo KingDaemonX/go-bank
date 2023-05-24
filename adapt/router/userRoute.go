@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UserRouter(r *gin.Engine, services *adapt.UserInfra) {
+func UserRouter(r *gin.Engine, services *adapt.ServiceInfra) {
 	user := interfaces.NewUserInterface((*application.UserAppInterface)(&services.UserInfra))
 
 	api := r.Group("/api")

@@ -9,13 +9,13 @@ import (
 )
 
 type User struct {
-	ID           uint   `gorm:"primaryKey"`
-	FirstName    string `gorm:"" json:"" validate:""`
-	LastName     string `gorm:"" json:"" validate:""`
-	Email        string `gorm:"" json:"" validate:""`
-	Password     string `gorm:"" json:"" validate:""`
-	Account      *entity.Account
-	Transactions []*transacEntity.Transactions
+	ID           uint                          `gorm:"primaryKey"`
+	FirstName    string                        `json:"firstName" validate:"gte=2,lte=100,required"`
+	LastName     string                        `json:"lastName" validate:"gte=2,lte=100,required"`
+	Email        string                        `gorm:"email" json:"" validate:"required,email"`
+	Password     string                        `json:"password" validate:"gte=8"` // todo: add regex
+	Account      *entity.Account               `json:"account,omitempty" gorm:"foreignKey:UID;constraint:OnUpdate:CASCADE,Ondelete:SET NULL;"`
+	Transactions []*transacEntity.Transactions `json:"transactions,omitempty" gorm:"foreignKey:UID;constraint:OnUpdate:CASCADE,Ondelete:SET NULL, "`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	DeletedAt    gorm.DeletedAt

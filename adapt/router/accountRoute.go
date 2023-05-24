@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AccountRoute(service *adapt.UserInfra, router *gin.Engine) {
+func AccountRoute(service *adapt.ServiceInfra, router *gin.Engine) {
 	account := interfaces.AccountInterface((*application.AccountApplication)(&service.AccountInfra))
 
 	accounts := router.Group("/api/accounts")

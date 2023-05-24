@@ -16,10 +16,9 @@ type TransacationAppInterface struct {
 	val *validator.Validate
 }
 
-func TransacationInterface(ta application.TransactionApplication, res *responses.Response) *TransacationAppInterface {
+func TransacationInterface(ta *application.TransactionApplication) *TransacationAppInterface {
 	return &TransacationAppInterface{
-		ta:  ta,
-		res: res,
+		ta: *ta,
 	}
 }
 

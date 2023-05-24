@@ -23,14 +23,14 @@ const (
 	migrationErr   string = "❎ Error Occur While Migrating Database Schema"
 )
 
-type UserInfra struct {
+type ServiceInfra struct {
 	UserInfra        repository.UserRepository
 	AccountInfra     accountRepo.AcccountRepository
 	TransactionInfra transactionRepo.TransactionRepository
 	db               *gorm.DB
 }
 
-func ConnectDatabase() (*UserInfra, error) {
+func ConnectDatabase() (*ServiceInfra, error) {
 	var err error
 	log.Println(connectingDB)
 
@@ -47,7 +47,7 @@ func ConnectDatabase() (*UserInfra, error) {
 		return nil, err
 	}
 
-	return &UserInfra{
+	return &ServiceInfra{
 		UserInfra:        persistent.NewUserInfra(db),
 		AccountInfra:     accountPersistent.NewAccountInfra(db),
 		TransactionInfra: transaactionPersistent.NewTrasactionInfra(db),

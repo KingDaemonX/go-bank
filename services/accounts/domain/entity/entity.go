@@ -3,7 +3,8 @@ package entity
 import "time"
 
 type Account struct {
-	UID       uint        `gorm:"foreignKey;user"`
+	ID        uint        `gorm:"primaryKey"`
+	UID       uint        `json:"uid"`
 	Number    string      `json:"accountNumber" gorm:"account_number"`
 	Active    bool        `json:"active" gorm:""`
 	Balance   float64     `json:"accountBalance" gorm:"account_balance"`
@@ -13,5 +14,5 @@ type Account struct {
 }
 
 type AccountPin struct {
-	Pin string `json:"omit"`
+	Pin string `json:"pin,omitempty"`
 }

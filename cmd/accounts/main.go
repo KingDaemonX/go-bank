@@ -27,12 +27,13 @@ func main() {
 	}
 
 	route := gin.Default()
+	route.Use(adapt.CorsMiddleWare())
 
 	router.AccountRoute(service, route)
 
 	port := os.Getenv("ACCOUNT_PORT")
 	if port == "" {
-		port = "3001"
+		port = "4000"
 	}
 
 	log.Printf("Starting Server At Localhost:%v", port)

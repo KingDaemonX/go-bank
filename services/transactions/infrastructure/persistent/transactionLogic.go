@@ -44,6 +44,7 @@ func (t *transactionInfra) CreateTransfer(userId string, transfer entity.Transfe
 	}
 
 	// * add pin security here later when it works
+	// todo : add pin check here
 	// sourceUserCB := user.Account.Balance - transfer.Amount
 	// targetUserCB := targetUser.Account.Balance + transfer.Amount
 	sourceUser.Account.Balance -= transfer.Amount
@@ -60,7 +61,6 @@ func (t *transactionInfra) CreateTransfer(userId string, transfer entity.Transfe
 		SourceTransactionAmount:       transfer.Amount,
 		TargetTransactionAmount:       transfer.Amount,
 		SourceBalanceAfterTransaction: sourceUser.Account.Balance,
-		TargetBalanceAfterTransaction: 0.00,
 		Description:                   transfer.Description,
 		Status:                        "success",
 	}
@@ -75,7 +75,6 @@ func (t *transactionInfra) CreateTransfer(userId string, transfer entity.Transfe
 		TransactionType:               "credit",
 		SourceTransactionAmount:       transfer.Amount,
 		TargetTransactionAmount:       transfer.Amount,
-		SourceBalanceAfterTransaction: 0.00,
 		TargetBalanceAfterTransaction: targetUser.Account.Balance,
 		Description:                   transfer.Description,
 		Status:                        "success",

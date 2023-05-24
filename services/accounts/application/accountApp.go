@@ -12,6 +12,7 @@ type accountApp struct {
 type AccountApplication interface {
 	CreateAccount(*entity.Account) (any, error)
 	ReadAccountByAccountNumber(string) (any, error)
+	CreatePin(*entity.AccountPin) (any, error)
 }
 
 var _ repository.AcccountRepository = &accountApp{}
@@ -22,4 +23,8 @@ func (aa *accountApp) CreateAccount(account *entity.Account) (any, error) {
 
 func (aa *accountApp) ReadAccountByAccountNumber(accountNumber string) (any, error) {
 	return aa.account.ReadAccountByAccountNumber(accountNumber)
+}
+
+func (aa *accountApp) CreatePin(pin *entity.AccountPin) (any, error) {
+	return aa.account.CreatePin(pin)
 }

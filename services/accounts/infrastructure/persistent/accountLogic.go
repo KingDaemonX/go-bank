@@ -46,3 +46,7 @@ func (a *AccountInfra) ReadAccountByAccountNumber(account string) (any, error) {
 	// check if user with account exist
 	return "", nil
 }
+
+func (a *AccountInfra) CreatePin(pin *entity.AccountPin) (any, error) {
+	return nil, nil
+}
