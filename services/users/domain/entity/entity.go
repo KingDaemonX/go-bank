@@ -12,7 +12,7 @@ type User struct {
 	ID           uint                          `gorm:"primaryKey"`
 	FirstName    string                        `json:"firstName" validate:"gte=2,lte=100,required"`
 	LastName     string                        `json:"lastName" validate:"gte=2,lte=100,required"`
-	Email        string                        `gorm:"email" json:"" validate:"required,email"`
+	Email        string                        `gorm:"unique,email" json:"" validate:"required,email"`
 	Password     string                        `json:"password" validate:"gte=8"` // todo: add regex
 	Account      *entity.Account               `json:"account,omitempty" gorm:"foreignKey:UID;constraint:OnUpdate:CASCADE,Ondelete:SET NULL;"`
 	Transactions []*transacEntity.Transactions `json:"transactions,omitempty" gorm:"foreignKey:UID;constraint:OnUpdate:CASCADE,Ondelete:SET NULL, "`

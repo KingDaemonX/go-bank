@@ -23,9 +23,10 @@ func (t *transactionInfra) CreateTransfer(userId string, transfer entity.Transfe
 	var (
 		sourceUser, targetUser entity2.User
 		transactions           entity.Transactions
+		err                    error
 	)
 
-	if err := t.conn.Debug().Find(&sourceUser, "id ?=", userId).Error; err != nil {
+	if err = t.conn.Debug().Find(&sourceUser, "id ?=", userId).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			err = errors.New("this user record does not exist")
 			return nil, err
@@ -35,7 +36,7 @@ func (t *transactionInfra) CreateTransfer(userId string, transfer entity.Transfe
 
 	// we assume that the account number was gotten from the read account number logic
 	// so it is save to pass
-	if err := t.conn.Debug().Find(&targetUser, "user.account_number ?=", transfer.TargetAccountNumber).Error; err != nil {
+	if err = t.conn.Debug().Find(&targetUser, "user.account_number ?=", transfer.TargetAccountNumber).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			err = errors.New("cannot find user with this account number")
 			return nil, err
@@ -80,13 +81,19 @@ func (t *transactionInfra) CreateTransfer(userId string, transfer entity.Transfe
 		Status:                        "success",
 	}
 
-	if err := t.conn.Debug().Find(&transactions, "user.transaction ?=", userId).Save(SourceTransaction).Error; err != nil {
+	go func() (any, error) {
+		if err := t.conn.Debug().Find(&transactions, "user.transaction ?=", userId).Save(SourceTransaction).Error; err != nil {
+			return nil, err
+		}
 		return nil, err
-	}
+	}()
 
-	if err := t.conn.Debug().Find(&targetUser, "user.transaaction ?=", targetUser.ID).Save(TargetTransaction).Error; err != nil {
+	go func() (any, error) {
+		if err := t.conn.Debug().Find(&targetUser, "user.transaaction ?=", targetUser.ID).Save(TargetTransaction).Error; err != nil {
+			return nil, err
+		}
 		return nil, err
-	}
+	}()
 
 	return "transfer successful", nil
 }
